@@ -10,7 +10,7 @@ import retrofit2.Retrofit;
 public class ApiCall {
     Gson gson;
     Retrofit retrofit;
-   public ApiCall(Gson gson,Retrofit retrofit)
+    public ApiCall(Gson gson,Retrofit retrofit)
     {
         this.gson=gson;
         this.retrofit=retrofit;

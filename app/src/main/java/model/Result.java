@@ -3,7 +3,9 @@ package model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Result {
+import java.io.Serializable;
+
+public class Result   {
     @SerializedName("display_title")
     @Expose
     private String displayTitle;
