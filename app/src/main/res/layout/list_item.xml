@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
+            android:src="@drawable/no_image"
             android:layout_marginLeft="10dp"
             android:id="@+id/imageView"
             android:layout_gravity="center"

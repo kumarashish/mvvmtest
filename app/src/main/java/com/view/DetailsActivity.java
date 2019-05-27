@@ -18,6 +18,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.testproject.R;
 
@@ -25,10 +26,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import model.Result;
+import room.Data;
 
 
 public class DetailsActivity  extends Activity {
-    Result model=null;
+   Data model=null;
     @BindView(R.id.heading)
     TextView heading;
     @BindView(R.id.content)
@@ -52,26 +54,28 @@ public class DetailsActivity  extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
-       model= new Gson().fromJson(getIntent().getStringExtra("resultdata"),Result.class);
+        model= new Gson().fromJson(getIntent().getStringExtra("resultdata"), Data.class);
         Log.d("TAG", "onCreate: "+model);
         setUI();
 
     }
     public void setUI()
-    {
-        Glide.with(this).load(model.getMultimedia().getSrc()).into(imageView);
-        shortheading.setText(model.getDisplayTitle());
+    { RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.no_image);
+        requestOptions.error(R.drawable.no_image);
+        Glide.with(this).load(model.getSrc()).apply(requestOptions).into(imageView);
+        shortheading.setText(model.getDisplay_title());
         heading.setText(model.getHeadline());
-        content.setText(model.getSummaryShort());
+        content.setText(model.getSummary_short());
         by.setText("By  "+model.getByline());
-        publishedon.setText(model.getPublicationDate());
-        hyperlinkcontent.setText(model.getLink().getSuggestedLinkText());
-        hyperlink.setText(Html.fromHtml("<p><u>"+model.getLink().getUrl()+"</u></p>"));
+        publishedon.setText(model.getPublication_date());
+        hyperlinkcontent.setText(model.getSuggested_link_text());
+        hyperlink.setText(Html.fromHtml("<p><u>"+model.getUrl()+"</u></p>"));
     }
 
     @OnClick({R.id.hyperlink})
     public void onClick(View view) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(model.getLink().getUrl()));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(model.getUrl()));
         startActivity(browserIntent);
     }
 

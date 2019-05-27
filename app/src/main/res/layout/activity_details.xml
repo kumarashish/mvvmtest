@@ -16,6 +16,7 @@
         android:orientation="vertical" >
 
         <ImageView
+            android:src="@drawable/no_image"
             android:layout_marginTop="20dp"
             android:padding="5dp"
             android:id="@+id/imageView"

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.testproject.R;
 
 
@@ -21,12 +22,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import interfaces.OnSubscriberCompleted;
 import model.Result;
+import room.Data;
 
 public class ListItemAdapter extends BaseAdapter {
-    List<Result> listItems;
+    List<Data> listItems;
     Activity act;
     OnSubscriberCompleted callback;
-   public ListItemAdapter(List<Result> listItems , Activity act)
+   public ListItemAdapter(List<Data> listItems , Activity act)
     {
         this.listItems=listItems;
         callback=(OnSubscriberCompleted) act;
@@ -49,7 +51,7 @@ public class ListItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-       Result model=listItems.get(position);
+       Data model=listItems.get(position);
         ViewHolder holder=null;
         if(convertView==null){
 
@@ -62,15 +64,18 @@ public class ListItemAdapter extends BaseAdapter {
 
         }
         holder.heading.setText(model.getHeadline());
-        holder.content.setText(model.getSummaryShort());
-        holder.date.setText(model.getPublicationDate());
+        holder.content.setText(model.getSummary_short());
+        holder.date.setText(model.getPublication_date());
         holder.click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callback.onListItemClicked(model);
             }
         });
-        Glide.with(act).load(model.getMultimedia().getSrc()).into(holder.imageView);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.no_image);
+        requestOptions.error(R.drawable.no_image);
+        Glide.with(act).load(model.getSrc()).apply(requestOptions).into(holder.imageView);
         convertView.setTag(holder);
         return convertView;
     }
